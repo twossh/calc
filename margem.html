@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bloqueio de Cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Sistema NICOLA - Painel Integrado 2026</title>
+    <style>
+        :root {
+            /* Cores Escuras (Dark Mode Fixo) */
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --bg-panel: #2a2a2a;
+            --text-main: #f1f1f1;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+            --input-bg: #222222;
+            --input-border: #444444;
+            --input-highlight: #3a3a3a;
+            
+            /* Cores da Marca / Destaques */
+            --honda-red: #cc0000;
+            --honda-red-hover: #a30000;
+            --honda-black: #0a0a0a;
+            --highlight: #007bff; 
+            
+            /* Status */
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            gap: 30px; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            background-color: var(--honda-black);
+            color: #ffffff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--honda-red);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #aaaaaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module-title {
+            padding: 20px 30px;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 20px;
+            color: var(--honda-red);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        @media (max-width: 850px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-area {
+            padding: 30px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 850px) {
+            .form-area {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            padding: 10px;
+            background-color: var(--bg-panel);
+            border-left: 3px solid var(--highlight);
+            border-radius: 4px;
+        }
+        
+        .inst-red {
+            border-left-color: var(--honda-red);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 12px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 12px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .form2-input {
+            padding: 12px 12px !important;
+        }
+
+        .has-prefix { padding-left: 35px !important; }
+        .has-suffix { padding-right: 35px !important; }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--honda-red);
+            box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.3);
+        }
+        
+        input.calculated, select.calculated {
+            background-color: var(--input-highlight);
+            border-color: var(--highlight);
+            color: var(--highlight);
+            font-weight: bold;
+            box-shadow: 0 0 0 1px var(--highlight);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-large {
+            padding: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--honda-red);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--honda-red-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+        
+        .error-message {
+            display: none;
+            color: var(--danger);
+            font-size: 13px;
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .result-area {
+            padding: 30px;
+            background-color: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .result-area-center {
+            justify-content: center;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .result-header {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        
+        .val-large {
+            font-size: 38px;
+            color: var(--success);
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            margin-top: 10px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.5s ease-out, background-color 0.3s;
+        }
+
+        .text-success { color: var(--success); }
+        .text-warning { color: var(--warning); }
+        .text-danger { color: var(--danger); }
+        .bg-success { background-color: var(--success); }
+        .bg-warning { background-color: var(--warning); }
+        .bg-danger { background-color: var(--danger); }
+        
+        .btn-toggle {
+            background: transparent;
+            color: var(--honda-red);
+            border: 1px solid var(--honda-red);
+            padding: 10px 15px;
+            font-size: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-toggle:hover {
+            background: rgba(204, 0, 0, 0.1);
+        }
+
+        .btn-toggle svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-toggle.open svg {
+            transform: rotate(180deg);
+        }
+        
+        .cost-list {
+            list-style: none;
+            margin-top: 0;
+        }
+        
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cost-label {
+            color: var(--text-muted);
+        }
+        
+        .cost-value {
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        
+        .ipva-item {
+            background-color: rgba(204, 0, 0, 0.05);
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 5px;
+            border-left: 3px solid var(--honda-red);
+            border-bottom: none !important;
+        }
+        
+        .ipva-item .cost-label {
+            color: var(--honda-red);
+            font-weight: bold;
+        }
+        
+        .ipva-item .cost-value {
+            color: var(--honda-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- MÓDULO 1: CALCULADORA DE MARGEM -->
+    <div class="container">
+        
+        <div class="header">
+            <div class="logo-area">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 22h20L12 2z"></path>
+                    <path d="M12 22V12"></path>
+                </svg>
+                <div>
+                    <h1 class="logo-text">NICOLA</h1>
+                    <div class="subtitle">Painel de Vendas 2026</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="module-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Calculadora de Margem Dinâmica
+        </div>
+
+        <div class="content">
+            
+            <div class="form-area">
+                
+                <div class="instructions">
+                    <strong>Regra:</strong> Temos 4 campos principais. Preencha 3 e deixe exatamente 1 em branco (o que deseja descobrir), depois clique em Calcular.
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Modelo (Custo Presumido)</label>
+                        <div class="input-wrapper">
+                            <select id="modelo_select" class="calc-input" style="width: 100%; padding: 10px 12px; font-size: 15px; background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); border-radius: 6px; outline: none;">
+                                <option value="" selected>Selecione o modelo</option>
+                                <!-- As opções serão preenchidas via JSON -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Valor da Venda</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="venda" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Outros Custos</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="outros" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Margem (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="margem" class="has-suffix calc-input" placeholder="Opcional" step="0.01">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="error-msg-margem" class="error-message">Erro: Preencha exatamente 3 campos e deixe 1 vazio.</div>
+
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="calcularDinamico()">Calcular</button>
+                    <button class="btn-secondary" onclick="limparMargem()">Limpar</button>
+                </div>
+            </div>
+
+            <div class="result-area result-area-center">
+                <div class="result-card" style="margin-bottom: 20px;">
+                    <div class="result-header">Lucro Bruto</div>
+                    <div class="result-value" id="lucro_bruto">R$ 0,00</div>
+                </div>
+
+                <div class="result-grid">
+                    <div class="stat-box">
+                        <div class="stat-title">Margem Atual</div>
+                        <div class="stat-value" id="margem_obtida">0,00%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">Custo Total</div>
+                        <div class="stat-value" id="custo_total">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span>Status: <strong id="status_text">-</strong></span>
+                        <span id="progress_pct">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress_bar"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MÓDULO 2: EMPLACAMENTO -->
+    <div class="container">
+        <div class="module-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a3.5 3.5 0 1 0-7 0"></path><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+            Simulador de Emplacamento
+        </div>
+
+        <div class="content">
+            
+            <div class="form-area">
+                
+                <div class="instructions inst-red">
+                    Preencha o valor da Nota Fiscal e o mês de faturamento para calcular as taxas e o IPVA.
+                </div>
+
+                <div class="input-group">
+                    <label>Valor da Nota Fiscal</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="valor_nf" class="has-prefix form2-input" placeholder="0,00" step="0.01">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Mês de Faturamento</label>
+                    <select id="mes_faturamento" class="form2-input">
+                        <option value="" disabled selected>Selecione o mês...</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+                
+                <div id="error-msg-emp" class="error-message">Por favor, preencha o Valor da NF e selecione o Mês.</div>
+
+                <div class="btn-group">
+                    <button class="btn-primary btn-large" onclick="calcularEmplacamento()">Calcular IPVA</button>
+                    <button class="btn-secondary btn-large" onclick="limparEmplacamento()">Limpar</button>
+                </div>
+            </div>
+
+            <div class="result-area">
+                
+                <div class="result-card">
+                    <div class="result-header">Valor Total do Emplacamento</div>
+                    <div class="result-value val-large" id="total_emplacamento">R$ 0,00</div>
+                </div>
+
+                <!-- Botão Toggle -->
+                <button id="toggle-btn" class="btn-toggle" onclick="toggleDetalhes()">
+                    Mostrar Detalhamento dos Custos
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                
+                <!-- Container Oculto por Padrão -->
+                <div id="detalhamento-container" style="display: none; margin-top: 15px;">
+                    <ul class="cost-list">
+                        <li class="cost-item">
+                            <span class="cost-label">Placas</span>
+                            <span class="cost-value" id="custo_placas">R$ 200,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Seguro DPVAT</span>
+                            <span class="cost-value" id="custo_seguro">R$ 0,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">CRLV + Digitalização</span>
+                            <span class="cost-value" id="custo_crlv">R$ 30,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Taxa de Emplacamento</span>
+                            <span class="cost-value" id="custo_taxa">R$ 328,51</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Honorário Despachante</span>
+                            <span class="cost-value" id="custo_honorario">R$ 150,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Receita (Serviço)</span>
+                            <span class="cost-value" id="custo_receita">R$ 250,00</span>
+                        </li>
+                        <li class="cost-item ipva-item">
+                            <span class="cost-label" id="ipva_label">IPVA Proporcional</span>
+                            <span class="cost-value" id="custo_ipva">R$ 0,00</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        /* ---------------------------------------------------
+           FETCH DOS MODELOS JSON
+           --------------------------------------------------- */
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("https://raw.githubusercontent.com/twossh/calc/refs/heads/main/dados.json", {cache: "no-store"})
+                .then(response => response.json())
+                .then(data => {
+                    // Ordena alfabeticamente pelo modelo
+                    data.sort((a, b) => {
+                        let nomeA = (a.modelo || a.Modelo || a.nome || a.Nome || a["Modelo da moto"] || "").toUpperCase();
+                        let nomeB = (b.modelo || b.Modelo || b.nome || b.Nome || b["Modelo da moto"] || "").toUpperCase();
+                        if (nomeA < nomeB) return -1;
+                        if (nomeA > nomeB) return 1;
+                        return 0;
+                    });
+
+                    let select = document.getElementById('modelo_select');
+                    data.forEach(item => {
+                        let keys = Object.keys(item);
+                        
+                        let nameKey = keys.find(k => typeof item[k] === 'string' && isNaN(Number(item[k]))) || keys[0];
+                        let name = item.modelo || item.Modelo || item.nome || item.Nome || item["Modelo da moto"] || item[nameKey] || "Modelo Desconhecido";
+                        
+                        // Busca ano de fabricacao e modelo
+                        let anoFab = item["Ano de Fabricação"] || item.ano_fabricacao || item.anoFabricacao || "";
+                        let anoMod = item["Modelo de fabricação"] || item.modelo_fabricacao || item.anoModelo || "";
+                        
+                        let costKey = keys.find(k => k.toLowerCase().includes('custo') || k.toLowerCase().includes('presumido') || k.toLowerCase() === 'valor') || keys[1];
+                        let costStr = item["Custo Presumido"] || item.custo_presumido || item.custo || item.valor || item[costKey];
+                        
+                        let costNum = 0;
+                        if(typeof costStr === 'string') {
+                            let cleanStr = costStr.replace(/[R$\s]/g, '');
+                            if(cleanStr.includes(',') && cleanStr.includes('.')) {
+                                cleanStr = cleanStr.replace(/\./g, '').replace(',', '.');
+                            } else if (cleanStr.includes(',')) {
+                                cleanStr = cleanStr.replace(',', '.');
+                            }
+                            costNum = parseFloat(cleanStr);
+                        } else {
+                            costNum = parseFloat(costStr);
+                        }
+                        
+                        if (name && !isNaN(costNum)) {
+                            let option = document.createElement('option');
+                            option.value = costNum;
+                            
+                            // Monta a string do display name: NOME ANO/MOD - R$ CUSTO
+                            let displayName = name;
+                            if (anoFab && anoMod) {
+                                displayName += ` ${anoFab}/${anoMod}`;
+                            }
+                            
+                            option.textContent = `${displayName} - R$ ${costNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                            select.appendChild(option);
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error("Erro ao carregar dados.json:", err);
+                    let select = document.getElementById('modelo_select');
+                    let option = document.createElement('option');
+                    option.value = "";
+                    option.textContent = "Erro ao carregar banco de dados";
+                    select.appendChild(option);
+                });
+        });
+
+        /* ---------------------------------------------------
+           LÓGICA - CALCULADORA DE MARGEM
+           --------------------------------------------------- */
+        document.querySelectorAll('.calc-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('calculated');
+                document.getElementById('error-msg-margem').style.display = 'none';
+                
+                if(this.tagName === 'SELECT') {
+                    let tempOpt = this.querySelector('.temp-calc');
+                    if(tempOpt && this.value !== tempOpt.value) {
+                        tempOpt.remove();
+                    }
+                }
+            });
+        });
+
+        function getVal(id) {
+            let el = document.getElementById(id);
+            if (!el) return null;
+            return el.value === "" ? null : parseFloat(el.value);
+        }
+        
+        function setVal(id, value) {
+            let el = document.getElementById(id);
+            if (!el) return;
+            
+            if (el.tagName === 'SELECT') {
+                let opt = Array.from(el.options).find(o => o.className === 'temp-calc');
+                if(!opt) {
+                    opt = document.createElement('option');
+                    opt.className = 'temp-calc';
+                    el.appendChild(opt);
+                }
+                opt.value = value;
+                opt.textContent = `Calculado: R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                el.value = value;
+            } else {
+                el.value = value.toFixed(2);
+            }
+            el.classList.add('calculated');
+        }
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function formatPct(value) {
+            return value.toFixed(2).replace('.', ',') + '%';
+        }
+
+        function calcularDinamico() {
+            document.querySelectorAll('.calc-input').forEach(input => input.classList.remove('calculated'));
+            let errorMsg = document.getElementById('error-msg-margem');
+            errorMsg.style.display = 'none';
+
+            let venda = getVal('venda');
+            let custo = getVal('modelo_select');
+            let outros = getVal('outros');
+            let margem = getVal('margem');
+
+            let vazios = 0;
+            if(venda === null || isNaN(venda)) vazios++;
+            if(custo === null || isNaN(custo)) vazios++;
+            if(outros === null || isNaN(outros)) vazios++;
+            if(margem === null || isNaN(margem)) vazios++;
+
+            if(vazios !== 1) {
+                errorMsg.textContent = "Erro: Preencha exatamente 3 campos e deixe 1 vazio.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (venda === null || isNaN(venda)) {
+                let ct = custo + outros;
+                if(margem >= 100) {
+                    errorMsg.textContent = "Erro: A margem não pode ser >= 100%.";
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                venda = ct / (1 - (margem / 100));
+                setVal('venda', venda);
+            }
+            else if (margem === null || isNaN(margem)) {
+                let ct = custo + outros;
+                if(venda <= 0) {
+                    margem = 0;
+                } else {
+                    margem = ((venda - ct) / venda) * 100;
+                }
+                setVal('margem', margem);
+            }
+            else if (custo === null || isNaN(custo)) {
+                let ct_necessario = venda * (1 - (margem / 100));
+                custo = ct_necessario - outros;
+                setVal('modelo_select', custo);
+            }
+            else if (outros === null || isNaN(outros)) {
+                let ct_necessario = venda * (1 - (margem / 100));
+                outros = ct_necessario - custo;
+                setVal('outros', outros);
+            }
+
+            atualizarPainelMargem(venda, custo, outros, margem);
+        }
+
+        function atualizarPainelMargem(venda, custo, outros, margemAlvo) {
+            let ct = custo + outros;
+            let lucroBruto = venda - ct;
+            let margemReal = 0;
+            if(venda > 0) margemReal = (lucroBruto / venda) * 100;
+
+            document.getElementById('lucro_bruto').textContent = formatCurrency(lucroBruto);
+            document.getElementById('margem_obtida').textContent = formatPct(margemReal);
+            document.getElementById('custo_total').textContent = formatCurrency(ct);
+
+            let statusText = document.getElementById('status_text');
+            let progressBar = document.getElementById('progress_bar');
+            let progressPct = document.getElementById('progress_pct');
+
+            document.getElementById('lucro_bruto').className = "result-value";
+            document.getElementById('margem_obtida').className = "stat-value";
+            statusText.className = "";
+            progressBar.className = "progress-bar-fill";
+            
+            let patamarExcelente = 20; 
+            let patamarAtencao = 10;   
+
+            if (margemReal >= patamarExcelente) {
+                document.getElementById('lucro_bruto').classList.add('text-success');
+                document.getElementById('margem_obtida').classList.add('text-success');
+                statusText.textContent = "ALTA RENTABILIDADE";
+                statusText.classList.add('text-success');
+                progressBar.classList.add('bg-success');
+                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%"; 
+            } else if (margemReal >= patamarAtencao && margemReal < patamarExcelente) {
+                document.getElementById('lucro_bruto').classList.add('text-warning');
+                document.getElementById('margem_obtida').classList.add('text-warning');
+                statusText.textContent = "MARGEM MÉDIA";
+                statusText.classList.add('text-warning');
+                progressBar.classList.add('bg-warning');
+                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%";
+            } else {
+                document.getElementById('lucro_bruto').classList.add('text-danger');
+                document.getElementById('margem_obtida').classList.add('text-danger');
+                statusText.textContent = margemReal <= 0 ? "PREJUÍZO" : "MARGEM BAIXA";
+                statusText.classList.add('text-danger');
+                progressBar.classList.add('bg-danger');
+                progressBar.style.width = Math.max(5, (margemReal / 30) * 100) + "%";
+            }
+            progressPct.textContent = formatPct(margemReal);
+        }
+
+        function limparMargem() {
+            document.querySelectorAll('.calc-input').forEach(input => {
+                input.value = "";
+                input.classList.remove('calculated');
+                if(input.tagName === 'SELECT') {
+                    let tempOpt = input.querySelector('.temp-calc');
+                    if(tempOpt) tempOpt.remove();
+                }
+            });
+            document.getElementById('error-msg-margem').style.display = 'none';
+            document.getElementById('lucro_bruto').textContent = "R$ 0,00";
+            document.getElementById('lucro_bruto').className = "result-value";
+            document.getElementById('margem_obtida').textContent = "0,00%";
+            document.getElementById('margem_obtida').className = "stat-value";
+            document.getElementById('custo_total').textContent = "R$ 0,00";
+            document.getElementById('custo_total').className = "stat-value";
+            document.getElementById('status_text').textContent = "-";
+            document.getElementById('status_text').className = "";
+            document.getElementById('progress_pct').textContent = "0%";
+            let progressBar = document.getElementById('progress_bar');
+            progressBar.style.width = "0%";
+            progressBar.className = "progress-bar-fill";
+        }
+
+
+        /* ---------------------------------------------------
+           LÓGICA - CALCULADORA DE EMPLACAMENTO
+           --------------------------------------------------- */
+        function toggleDetalhes() {
+            let container = document.getElementById('detalhamento-container');
+            let btn = document.getElementById('toggle-btn');
+            
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                btn.innerHTML = `Ocultar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+            } else {
+                container.style.display = 'none';
+                btn.innerHTML = `Mostrar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+            }
+        }
+
+        document.getElementById('valor_nf').addEventListener('input', function() {
+            document.getElementById('error-msg-emp').style.display = 'none';
+        });
+        document.getElementById('mes_faturamento').addEventListener('change', function() {
+            document.getElementById('error-msg-emp').style.display = 'none';
+        });
+
+        function calcularEmplacamento() {
+            let valorNfStr = document.getElementById('valor_nf').value;
+            let mesStr = document.getElementById('mes_faturamento').value;
+            let errorMsg = document.getElementById('error-msg-emp');
+
+            if (valorNfStr === "" || mesStr === "") {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            let valorNf = parseFloat(valorNfStr);
+            let mes = parseInt(mesStr);
+
+            let placas = 200.00;
+            let seguro = 0.00;
+            let crlv = 30.00;
+            let taxaEmplacamento = 328.51;
+            let despachante = 150.00;
+            let receita = 250.00;
+
+            let taxaIpvaAno = 0.02; // 2%
+            let ipvaTotalAno = valorNf * taxaIpvaAno;
+            
+            let mesesRestantes = 12 - mes + 1;
+            let ipvaProporcional = (ipvaTotalAno / 12) * mesesRestantes;
+
+            let custosFixos = placas + seguro + crlv + taxaEmplacamento + despachante + receita;
+            let totalGeral = custosFixos + ipvaProporcional;
+
+            document.getElementById('total_emplacamento').textContent = formatCurrency(totalGeral);
+            
+            let nomesMeses = ["", "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            document.getElementById('ipva_label').textContent = `IPVA Proporcional (${mesesRestantes} meses desde ${nomesMeses[mes]})`;
+            document.getElementById('custo_ipva').textContent = formatCurrency(ipvaProporcional);
+        }
+
+        function limparEmplacamento() {
+            document.getElementById('valor_nf').value = "";
+            document.getElementById('mes_faturamento').value = "";
+            document.getElementById('error-msg-emp').style.display = 'none';
+
+            document.getElementById('total_emplacamento').textContent = "R$ 0,00";
+            document.getElementById('ipva_label').textContent = "IPVA Proporcional";
+            document.getElementById('custo_ipva').textContent = "R$ 0,00";
+            
+            let container = document.getElementById('detalhamento-container');
+            let btn = document.getElementById('toggle-btn');
+            container.style.display = 'none';
+            btn.innerHTML = `Mostrar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+        }
+    </script>
+</body>
+</html>
