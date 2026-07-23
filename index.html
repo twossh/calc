@@ -677,21 +677,31 @@
            FETCH DOS MODELOS JSON
            --------------------------------------------------- */
         document.addEventListener("DOMContentLoaded", function() {
-            // Utilizamos um fetch cache-busting adicionando timestamp caso precise burlar proxies
             fetch("https://raw.githubusercontent.com/twossh/calc/refs/heads/main/dados.json", {cache: "no-store"})
                 .then(response => response.json())
                 .then(data => {
+                    // Ordena alfabeticamente pelo modelo
+                    data.sort((a, b) => {
+                        let nomeA = (a.modelo || a.Modelo || a.nome || a.Nome || a["Modelo da moto"] || "").toUpperCase();
+                        let nomeB = (b.modelo || b.Modelo || b.nome || b.Nome || b["Modelo da moto"] || "").toUpperCase();
+                        if (nomeA < nomeB) return -1;
+                        if (nomeA > nomeB) return 1;
+                        return 0;
+                    });
+
                     let select = document.getElementById('modelo_select');
                     data.forEach(item => {
                         let keys = Object.keys(item);
                         
-                        // Procurando dinamicamente a chave do nome
                         let nameKey = keys.find(k => typeof item[k] === 'string' && isNaN(Number(item[k]))) || keys[0];
-                        let name = item.modelo || item.Modelo || item.nome || item.Nome || item[nameKey] || "Modelo Desconhecido";
+                        let name = item.modelo || item.Modelo || item.nome || item.Nome || item["Modelo da moto"] || item[nameKey] || "Modelo Desconhecido";
                         
-                        // Procurando dinamicamente a chave do custo presumido
+                        // Busca ano de fabricacao e modelo
+                        let anoFab = item["Ano de Fabricação"] || item.ano_fabricacao || item.anoFabricacao || "";
+                        let anoMod = item["Modelo de fabricação"] || item.modelo_fabricacao || item.anoModelo || "";
+                        
                         let costKey = keys.find(k => k.toLowerCase().includes('custo') || k.toLowerCase().includes('presumido') || k.toLowerCase() === 'valor') || keys[1];
-                        let costStr = item.custo_presumido || item.custo || item.valor || item[costKey];
+                        let costStr = item["Custo Presumido"] || item.custo_presumido || item.custo || item.valor || item[costKey];
                         
                         let costNum = 0;
                         if(typeof costStr === 'string') {
@@ -709,8 +719,14 @@
                         if (name && !isNaN(costNum)) {
                             let option = document.createElement('option');
                             option.value = costNum;
-                            // Formatando para Reais
-                            option.textContent = `${name} - R$ ${costNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                            
+                            // Monta a string do display name: NOME ANO/MOD - R$ CUSTO
+                            let displayName = name;
+                            if (anoFab && anoMod) {
+                                displayName += ` ${anoFab}/${anoMod}`;
+                            }
+                            
+                            option.textContent = `${displayName} - R$ ${costNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                             select.appendChild(option);
                         }
                     });
@@ -733,7 +749,6 @@
                 this.classList.remove('calculated');
                 document.getElementById('error-msg-margem').style.display = 'none';
                 
-                // Remove option temporária se for o select
                 if(this.tagName === 'SELECT') {
                     let tempOpt = this.querySelector('.temp-calc');
                     if(tempOpt && this.value !== tempOpt.value) {
@@ -787,7 +802,6 @@
             let outros = getVal('outros');
             let margem = getVal('margem');
 
-            // Temos 4 campos, precisamos de 3 preenchidos e 1 vazio.
             let vazios = 0;
             if(venda === null || isNaN(venda)) vazios++;
             if(custo === null || isNaN(custo)) vazios++;
@@ -800,7 +814,6 @@
                 return;
             }
 
-            // Lógica reversa
             if (venda === null || isNaN(venda)) {
                 let ct = custo + outros;
                 if(margem >= 100) {
