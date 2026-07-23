@@ -50,12 +50,12 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            gap: 30px; /* Espaço entre as duas calculadoras */
+            gap: 30px; 
         }
 
         .container {
             width: 100%;
-            max-width: 1000px; /* Alargado um pouco para acomodar melhor */
+            max-width: 1000px;
             background: var(--bg-card);
             border-radius: 12px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -65,7 +65,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Header e Logo */
         .header {
             background-color: var(--honda-black);
             color: #ffffff;
@@ -97,7 +96,6 @@
             letter-spacing: 1px;
         }
 
-        /* Layout unificado */
         .module-title {
             padding: 20px 30px;
             background-color: #1a1a1a;
@@ -112,7 +110,6 @@
             gap: 10px;
         }
 
-        /* Grid Principal para cada Módulo */
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -125,7 +122,6 @@
             }
         }
 
-        /* Formulário de Entradas */
         .form-area {
             padding: 30px;
             border-right: 1px solid var(--border-color);
@@ -214,7 +210,6 @@
             transition: all 0.3s ease;
         }
         
-        /* Padding maior pro form 2 */
         .form2-input {
             padding: 12px 12px !important;
         }
@@ -227,8 +222,7 @@
             box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.3);
         }
         
-        /* Estilo para o campo que foi calculado automaticamente */
-        input.calculated {
+        input.calculated, select.calculated {
             background-color: var(--input-highlight);
             border-color: var(--highlight);
             color: var(--highlight);
@@ -277,7 +271,6 @@
             background-color: var(--border-color);
         }
         
-        /* Modal de Erro customizado */
         .error-message {
             display: none;
             color: var(--danger);
@@ -287,7 +280,6 @@
             text-align: center;
         }
 
-        /* Área de Resultados */
         .result-area {
             padding: 30px;
             background-color: var(--bg-panel);
@@ -357,7 +349,6 @@
             font-weight: bold;
         }
 
-        /* Barra de Progresso */
         .progress-container {
             margin-top: 10px;
         }
@@ -386,7 +377,6 @@
             transition: width 0.5s ease-out, background-color 0.3s;
         }
 
-        /* Cores Dinâmicas */
         .text-success { color: var(--success); }
         .text-warning { color: var(--warning); }
         .text-danger { color: var(--danger); }
@@ -394,7 +384,6 @@
         .bg-warning { background-color: var(--warning); }
         .bg-danger { background-color: var(--danger); }
         
-        /* Botão Mostrar/Ocultar */
         .btn-toggle {
             background: transparent;
             color: var(--honda-red);
@@ -425,7 +414,6 @@
             transform: rotate(180deg);
         }
         
-        /* Lista de Custos */
         .cost-list {
             list-style: none;
             margin-top: 0;
@@ -452,7 +440,6 @@
             color: var(--text-main);
         }
         
-        /* Destaque IPVA */
         .ipva-item {
             background-color: rgba(204, 0, 0, 0.05);
             border-radius: 4px;
@@ -501,30 +488,24 @@
             <div class="form-area">
                 
                 <div class="instructions">
-                    <strong>Regra:</strong> Preencha apenas 4 dos 5 campos principais. Deixe o campo que deseja descobrir vazio e clique em Calcular.
-                </div>
-
-                <div class="input-group">
-                    <label>Valor da Venda</label>
-                    <div class="input-wrapper">
-                        <span class="input-prefix">R$</span>
-                        <input type="number" id="venda" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
-                    </div>
+                    <strong>Regra:</strong> Temos 4 campos principais. Preencha 3 e deixe exatamente 1 em branco (o que deseja descobrir), depois clique em Calcular.
                 </div>
 
                 <div class="input-row">
                     <div class="input-group">
-                        <label>Custo Base</label>
+                        <label>Modelo (Custo Presumido)</label>
                         <div class="input-wrapper">
-                            <span class="input-prefix">R$</span>
-                            <input type="number" id="custo" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                            <select id="modelo_select" class="calc-input" style="width: 100%; padding: 10px 12px; font-size: 15px; background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); border-radius: 6px; outline: none;">
+                                <option value="" selected>Descobrir Custo / Selecione...</option>
+                                <!-- As opções serão preenchidas via JSON -->
+                            </select>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label>Impostos (PIS/COFINS)</label>
+                        <label>Valor da Venda</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">R$</span>
-                            <input type="number" id="impostos" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                            <input type="number" id="venda" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
                         </div>
                     </div>
                 </div>
@@ -546,7 +527,7 @@
                     </div>
                 </div>
                 
-                <div id="error-msg-margem" class="error-message">Deixe exatamente UM campo vazio para ser calculado.</div>
+                <div id="error-msg-margem" class="error-message">Erro: Preencha exatamente 3 campos e deixe 1 vazio.</div>
 
                 <div class="btn-group">
                     <button class="btn-primary" onclick="calcularDinamico()">Calcular</button>
@@ -693,23 +674,98 @@
     <!-- SCRIPTS -->
     <script>
         /* ---------------------------------------------------
+           FETCH DOS MODELOS JSON
+           --------------------------------------------------- */
+        document.addEventListener("DOMContentLoaded", function() {
+            // Utilizamos um fetch cache-busting adicionando timestamp caso precise burlar proxies
+            fetch("https://raw.githubusercontent.com/twossh/calc/refs/heads/main/dados.json", {cache: "no-store"})
+                .then(response => response.json())
+                .then(data => {
+                    let select = document.getElementById('modelo_select');
+                    data.forEach(item => {
+                        let keys = Object.keys(item);
+                        
+                        // Procurando dinamicamente a chave do nome
+                        let nameKey = keys.find(k => typeof item[k] === 'string' && isNaN(Number(item[k]))) || keys[0];
+                        let name = item.modelo || item.Modelo || item.nome || item.Nome || item[nameKey] || "Modelo Desconhecido";
+                        
+                        // Procurando dinamicamente a chave do custo presumido
+                        let costKey = keys.find(k => k.toLowerCase().includes('custo') || k.toLowerCase().includes('presumido') || k.toLowerCase() === 'valor') || keys[1];
+                        let costStr = item.custo_presumido || item.custo || item.valor || item[costKey];
+                        
+                        let costNum = 0;
+                        if(typeof costStr === 'string') {
+                            let cleanStr = costStr.replace(/[R$\s]/g, '');
+                            if(cleanStr.includes(',') && cleanStr.includes('.')) {
+                                cleanStr = cleanStr.replace(/\./g, '').replace(',', '.');
+                            } else if (cleanStr.includes(',')) {
+                                cleanStr = cleanStr.replace(',', '.');
+                            }
+                            costNum = parseFloat(cleanStr);
+                        } else {
+                            costNum = parseFloat(costStr);
+                        }
+                        
+                        if (name && !isNaN(costNum)) {
+                            let option = document.createElement('option');
+                            option.value = costNum;
+                            // Formatando para Reais
+                            option.textContent = `${name} - R$ ${costNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                            select.appendChild(option);
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error("Erro ao carregar dados.json:", err);
+                    let select = document.getElementById('modelo_select');
+                    let option = document.createElement('option');
+                    option.value = "";
+                    option.textContent = "Erro ao carregar banco de dados";
+                    select.appendChild(option);
+                });
+        });
+
+        /* ---------------------------------------------------
            LÓGICA - CALCULADORA DE MARGEM
            --------------------------------------------------- */
         document.querySelectorAll('.calc-input').forEach(input => {
             input.addEventListener('input', function() {
                 this.classList.remove('calculated');
                 document.getElementById('error-msg-margem').style.display = 'none';
+                
+                // Remove option temporária se for o select
+                if(this.tagName === 'SELECT') {
+                    let tempOpt = this.querySelector('.temp-calc');
+                    if(tempOpt && this.value !== tempOpt.value) {
+                        tempOpt.remove();
+                    }
+                }
             });
         });
 
         function getVal(id) {
-            let val = document.getElementById(id).value;
-            return val === "" ? null : parseFloat(val);
+            let el = document.getElementById(id);
+            if (!el) return null;
+            return el.value === "" ? null : parseFloat(el.value);
         }
         
         function setVal(id, value) {
             let el = document.getElementById(id);
-            el.value = value.toFixed(2);
+            if (!el) return;
+            
+            if (el.tagName === 'SELECT') {
+                let opt = Array.from(el.options).find(o => o.className === 'temp-calc');
+                if(!opt) {
+                    opt = document.createElement('option');
+                    opt.className = 'temp-calc';
+                    el.appendChild(opt);
+                }
+                opt.value = value;
+                opt.textContent = `Calculado: R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                el.value = value;
+            } else {
+                el.value = value.toFixed(2);
+            }
             el.classList.add('calculated');
         }
 
@@ -727,43 +783,36 @@
             errorMsg.style.display = 'none';
 
             let venda = getVal('venda');
-            let custo = getVal('custo');
-            let impostos = getVal('impostos');
+            let custo = getVal('modelo_select');
             let outros = getVal('outros');
             let margem = getVal('margem');
 
-            if(custo === null && impostos === null) impostos = 0;
-            if(custo === null && outros === null) outros = 0;
-            
-            let custoTotalValido = (custo !== null && impostos !== null && outros !== null);
-            
+            // Temos 4 campos, precisamos de 3 preenchidos e 1 vazio.
             let vazios = 0;
-            if(venda === null) vazios++;
-            if(!custoTotalValido) vazios++;
-            if(margem === null) vazios++;
+            if(venda === null || isNaN(venda)) vazios++;
+            if(custo === null || isNaN(custo)) vazios++;
+            if(outros === null || isNaN(outros)) vazios++;
+            if(margem === null || isNaN(margem)) vazios++;
 
             if(vazios !== 1) {
-                if(custo === null && impostos !== null && outros !== null && venda !== null && margem !== null) {
-                } else if(impostos === null && custo !== null && outros !== null && venda !== null && margem !== null) {
-                } else if(outros === null && custo !== null && impostos !== null && venda !== null && margem !== null) {
-                } else {
-                    errorMsg.style.display = 'block';
-                    return;
-                }
+                errorMsg.textContent = "Erro: Preencha exatamente 3 campos e deixe 1 vazio.";
+                errorMsg.style.display = 'block';
+                return;
             }
 
-            if (venda === null) {
-                let ct = custo + impostos + outros;
+            // Lógica reversa
+            if (venda === null || isNaN(venda)) {
+                let ct = custo + outros;
                 if(margem >= 100) {
-                    errorMsg.textContent = "A margem não pode ser >= 100%.";
+                    errorMsg.textContent = "Erro: A margem não pode ser >= 100%.";
                     errorMsg.style.display = 'block';
                     return;
                 }
                 venda = ct / (1 - (margem / 100));
                 setVal('venda', venda);
             }
-            else if (margem === null) {
-                let ct = custo + impostos + outros;
+            else if (margem === null || isNaN(margem)) {
+                let ct = custo + outros;
                 if(venda <= 0) {
                     margem = 0;
                 } else {
@@ -771,28 +820,22 @@
                 }
                 setVal('margem', margem);
             }
-            else {
+            else if (custo === null || isNaN(custo)) {
                 let ct_necessario = venda * (1 - (margem / 100));
-                
-                if (custo === null) {
-                    custo = ct_necessario - (impostos + outros);
-                    setVal('custo', custo);
-                }
-                else if (impostos === null) {
-                    impostos = ct_necessario - (custo + outros);
-                    setVal('impostos', impostos);
-                }
-                else if (outros === null) {
-                    outros = ct_necessario - (custo + impostos);
-                    setVal('outros', outros);
-                }
+                custo = ct_necessario - outros;
+                setVal('modelo_select', custo);
+            }
+            else if (outros === null || isNaN(outros)) {
+                let ct_necessario = venda * (1 - (margem / 100));
+                outros = ct_necessario - custo;
+                setVal('outros', outros);
             }
 
-            atualizarPainelMargem(venda, custo, impostos, outros, margem);
+            atualizarPainelMargem(venda, custo, outros, margem);
         }
 
-        function atualizarPainelMargem(venda, custo, impostos, outros, margemAlvo) {
-            let ct = custo + impostos + outros;
+        function atualizarPainelMargem(venda, custo, outros, margemAlvo) {
+            let ct = custo + outros;
             let lucroBruto = venda - ct;
             let margemReal = 0;
             if(venda > 0) margemReal = (lucroBruto / venda) * 100;
@@ -842,6 +885,10 @@
             document.querySelectorAll('.calc-input').forEach(input => {
                 input.value = "";
                 input.classList.remove('calculated');
+                if(input.tagName === 'SELECT') {
+                    let tempOpt = input.querySelector('.temp-calc');
+                    if(tempOpt) tempOpt.remove();
+                }
             });
             document.getElementById('error-msg-margem').style.display = 'none';
             document.getElementById('lucro_bruto').textContent = "R$ 0,00";
