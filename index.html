@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Concessionária - Calculadora de Margem Dinâmica</title>
+    <title>Sistema NICOLA - Painel Integrado 2026</title>
     <style>
         :root {
-            /* Modo Escuro Fixo */
+            /* Cores Escuras (Dark Mode Fixo) */
             --bg-body: #121212;
             --bg-card: #1e1e1e;
             --bg-panel: #2a2a2a;
@@ -17,11 +17,11 @@
             --input-border: #444444;
             --input-highlight: #3a3a3a;
             
-            /* Cores da Marca */
+            /* Cores da Marca / Destaques */
             --honda-red: #cc0000;
             --honda-red-hover: #a30000;
             --honda-black: #0a0a0a;
-            --highlight: #007bff; /* Azul para indicar campo calculado */
+            --highlight: #007bff; 
             
             /* Status */
             --success: #28a745;
@@ -40,15 +40,16 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            gap: 30px; /* Espaço entre as duas calculadoras */
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px; /* Alargado um pouco para acomodar melhor */
             background: var(--bg-card);
             border-radius: 12px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -90,14 +91,31 @@
             letter-spacing: 1px;
         }
 
-        /* Grid Principal */
+        /* Nav Tabs para alternar entre as calculadoras em telas menores (opcional, mas aqui vamos mostrar as duas uma embaixo da outra ou lado a lado) */
+        
+        /* Layout unificado */
+        .module-title {
+            padding: 20px 30px;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 20px;
+            color: var(--honda-red);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Grid Principal para cada Módulo */
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 850px) {
             .content {
                 grid-template-columns: 1fr;
             }
@@ -109,7 +127,7 @@
             border-right: 1px solid var(--border-color);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 850px) {
             .form-area {
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
@@ -120,7 +138,7 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: var(--honda-red);
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -134,6 +152,10 @@
             background-color: var(--bg-panel);
             border-left: 3px solid var(--highlight);
             border-radius: 4px;
+        }
+        
+        .inst-red {
+            border-left-color: var(--honda-red);
         }
 
         .input-group {
@@ -176,7 +198,7 @@
             font-size: 14px;
         }
 
-        input[type="number"] {
+        input[type="number"], select {
             width: 100%;
             padding: 10px 12px;
             font-size: 16px;
@@ -187,11 +209,16 @@
             outline: none;
             transition: all 0.3s ease;
         }
+        
+        /* Padding maior pro form 2 */
+        .form2-input {
+            padding: 12px 12px !important;
+        }
 
         .has-prefix { padding-left: 35px !important; }
         .has-suffix { padding-right: 35px !important; }
 
-        input[type="number"]:focus {
+        input[type="number"]:focus, select:focus {
             border-color: var(--honda-red);
             box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.3);
         }
@@ -221,6 +248,10 @@
             cursor: pointer;
             text-transform: uppercase;
             transition: background-color 0.2s;
+        }
+        
+        .btn-large {
+            padding: 15px;
         }
 
         .btn-primary {
@@ -258,6 +289,10 @@
             background-color: var(--bg-panel);
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .result-area-center {
             justify-content: center;
         }
 
@@ -268,6 +303,7 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            text-align: center;
         }
 
         .result-header {
@@ -282,6 +318,11 @@
             font-size: 32px;
             font-weight: bold;
             color: var(--text-main);
+        }
+        
+        .val-large {
+            font-size: 38px;
+            color: var(--success);
         }
 
         .result-grid {
@@ -314,7 +355,7 @@
 
         /* Barra de Progresso */
         .progress-container {
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .progress-header {
@@ -348,14 +389,91 @@
         .bg-success { background-color: var(--success); }
         .bg-warning { background-color: var(--warning); }
         .bg-danger { background-color: var(--danger); }
+        
+        /* Botão Mostrar/Ocultar */
+        .btn-toggle {
+            background: transparent;
+            color: var(--honda-red);
+            border: 1px solid var(--honda-red);
+            padding: 10px 15px;
+            font-size: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-toggle:hover {
+            background: rgba(204, 0, 0, 0.1);
+        }
+
+        .btn-toggle svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-toggle.open svg {
+            transform: rotate(180deg);
+        }
+        
+        /* Lista de Custos */
+        .cost-list {
+            list-style: none;
+            margin-top: 0;
+        }
+        
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cost-label {
+            color: var(--text-muted);
+        }
+        
+        .cost-value {
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        
+        /* Destaque IPVA */
+        .ipva-item {
+            background-color: rgba(204, 0, 0, 0.05);
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 5px;
+            border-left: 3px solid var(--honda-red);
+            border-bottom: none !important;
+        }
+        
+        .ipva-item .cost-label {
+            color: var(--honda-red);
+            font-weight: bold;
+        }
+        
+        .ipva-item .cost-value {
+            color: var(--honda-red);
+        }
 
     </style>
 </head>
 <body>
 
+    <!-- MÓDULO 1: CALCULADORA DE MARGEM -->
     <div class="container">
         
-        <!-- Topo com Logo -->
         <div class="header">
             <div class="logo-area">
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -364,19 +482,19 @@
                 </svg>
                 <div>
                     <h1 class="logo-text">NICOLA</h1>
-                    <div class="subtitle">Cálculo Dinâmico</div>
+                    <div class="subtitle">Painel de Vendas 2026</div>
                 </div>
             </div>
+        </div>
+        
+        <div class="module-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Calculadora de Margem Dinâmica
         </div>
 
         <div class="content">
             
-            <!-- Lado Esquerdo: Formulário -->
             <div class="form-area">
-                <div class="section-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    Simulador Reverso
-                </div>
                 
                 <div class="instructions">
                     <strong>Regra:</strong> Preencha apenas 4 dos 5 campos principais. Deixe o campo que deseja descobrir vazio e clique em Calcular.
@@ -424,17 +542,16 @@
                     </div>
                 </div>
                 
-                <div id="error-msg" class="error-message">Deixe exatamente UM campo (ou grupo) vazio para ser calculado.</div>
+                <div id="error-msg-margem" class="error-message">Deixe exatamente UM campo vazio para ser calculado.</div>
 
                 <div class="btn-group">
                     <button class="btn-primary" onclick="calcularDinamico()">Calcular</button>
-                    <button class="btn-secondary" onclick="limpar()">Limpar</button>
+                    <button class="btn-secondary" onclick="limparMargem()">Limpar</button>
                 </div>
             </div>
 
-            <!-- Lado Direito: Resultados -->
-            <div class="result-area">
-                <div class="result-card">
+            <div class="result-area result-area-center">
+                <div class="result-card" style="margin-bottom: 20px;">
                     <div class="result-header">Lucro Bruto</div>
                     <div class="result-value" id="lucro_bruto">R$ 0,00</div>
                 </div>
@@ -463,19 +580,124 @@
             </div>
 
         </div>
-
     </div>
 
+    <!-- MÓDULO 2: EMPLACAMENTO -->
+    <div class="container">
+        <div class="module-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a3.5 3.5 0 1 0-7 0"></path><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+            Simulador de Emplacamento
+        </div>
+
+        <div class="content">
+            
+            <div class="form-area">
+                
+                <div class="instructions inst-red">
+                    Preencha o valor da Nota Fiscal e o mês de faturamento para calcular as taxas e o IPVA.
+                </div>
+
+                <div class="input-group">
+                    <label>Valor da Nota Fiscal</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="valor_nf" class="has-prefix form2-input" placeholder="0,00" step="0.01">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Mês de Faturamento</label>
+                    <select id="mes_faturamento" class="form2-input">
+                        <option value="" disabled selected>Selecione o mês...</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+                
+                <div id="error-msg-emp" class="error-message">Por favor, preencha o Valor da NF e selecione o Mês.</div>
+
+                <div class="btn-group">
+                    <button class="btn-primary btn-large" onclick="calcularEmplacamento()">Calcular IPVA</button>
+                    <button class="btn-secondary btn-large" onclick="limparEmplacamento()">Limpar</button>
+                </div>
+            </div>
+
+            <div class="result-area">
+                
+                <div class="result-card">
+                    <div class="result-header">Valor Total do Emplacamento</div>
+                    <div class="result-value val-large" id="total_emplacamento">R$ 0,00</div>
+                </div>
+
+                <!-- Botão Toggle -->
+                <button id="toggle-btn" class="btn-toggle" onclick="toggleDetalhes()">
+                    Mostrar Detalhamento dos Custos
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                
+                <!-- Container Oculto por Padrão -->
+                <div id="detalhamento-container" style="display: none; margin-top: 15px;">
+                    <ul class="cost-list">
+                        <li class="cost-item">
+                            <span class="cost-label">Placas</span>
+                            <span class="cost-value" id="custo_placas">R$ 200,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Seguro DPVAT</span>
+                            <span class="cost-value" id="custo_seguro">R$ 0,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">CRLV + Digitalização</span>
+                            <span class="cost-value" id="custo_crlv">R$ 30,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Taxa de Emplacamento</span>
+                            <span class="cost-value" id="custo_taxa">R$ 328,51</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Honorário Despachante</span>
+                            <span class="cost-value" id="custo_honorario">R$ 150,00</span>
+                        </li>
+                        <li class="cost-item">
+                            <span class="cost-label">Receita (Serviço)</span>
+                            <span class="cost-value" id="custo_receita">R$ 250,00</span>
+                        </li>
+                        <li class="cost-item ipva-item">
+                            <span class="cost-label" id="ipva_label">IPVA Proporcional</span>
+                            <span class="cost-value" id="custo_ipva">R$ 0,00</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
     <script>
-        // Remove destaque quando o usuário digita
+        /* ---------------------------------------------------
+           LÓGICA - CALCULADORA DE MARGEM
+           --------------------------------------------------- */
         document.querySelectorAll('.calc-input').forEach(input => {
             input.addEventListener('input', function() {
                 this.classList.remove('calculated');
-                document.getElementById('error-msg').style.display = 'none';
+                document.getElementById('error-msg-margem').style.display = 'none';
             });
         });
 
-        // Funções Auxiliares
         function getVal(id) {
             let val = document.getElementById(id).value;
             return val === "" ? null : parseFloat(val);
@@ -495,11 +717,9 @@
             return value.toFixed(2).replace('.', ',') + '%';
         }
 
-        // Função Principal de Cálculo Dinâmico
         function calcularDinamico() {
-            // Remove estados de cálculo prévios
             document.querySelectorAll('.calc-input').forEach(input => input.classList.remove('calculated'));
-            let errorMsg = document.getElementById('error-msg');
+            let errorMsg = document.getElementById('error-msg-margem');
             errorMsg.style.display = 'none';
 
             let venda = getVal('venda');
@@ -508,19 +728,9 @@
             let outros = getVal('outros');
             let margem = getVal('margem');
 
-            // Agrupa os custos menores se houver necessidade
-            // Para simplificar a lógica inversa, se custo estiver vazio, assumimos impostos e outros como 0 se também vazios
             if(custo === null && impostos === null) impostos = 0;
             if(custo === null && outros === null) outros = 0;
             
-            // Variável de Custo Total para ajudar nos cálculos
-            // O Custo Total C_T = Custo + Impostos + Outros
-            // Sabemos que: Margem = ((Venda - C_T) / Venda) * 100
-            // Logo: C_T = Venda * (1 - (Margem/100))
-            // E: Venda = C_T / (1 - (Margem/100))
-
-            // Verifica quantos campos essenciais estão vazios
-            // Consideramos "Custos" como um bloco unificado para a regra do "um vazio"
             let custoTotalValido = (custo !== null && impostos !== null && outros !== null);
             
             let vazios = 0;
@@ -529,35 +739,25 @@
             if(margem === null) vazios++;
 
             if(vazios !== 1) {
-                // Se custo base estiver vazio mas não os outros, tratamos "custo base" como a incógnita
                 if(custo === null && impostos !== null && outros !== null && venda !== null && margem !== null) {
-                    // Custo é a única incógnita real
                 } else if(impostos === null && custo !== null && outros !== null && venda !== null && margem !== null) {
-                    // Impostos é a única incógnita
                 } else if(outros === null && custo !== null && impostos !== null && venda !== null && margem !== null) {
-                    // Outros é a única incógnita
                 } else {
                     errorMsg.style.display = 'block';
                     return;
                 }
             }
 
-            // Cálculos Reversos
-
-            // 1. Descobrir VENDA
             if (venda === null) {
                 let ct = custo + impostos + outros;
-                // V = CT / (1 - M)
                 if(margem >= 100) {
-                    errorMsg.textContent = "A margem não pode ser 100% ou maior neste cálculo.";
+                    errorMsg.textContent = "A margem não pode ser >= 100%.";
                     errorMsg.style.display = 'block';
                     return;
                 }
                 venda = ct / (1 - (margem / 100));
                 setVal('venda', venda);
             }
-            
-            // 2. Descobrir MARGEM
             else if (margem === null) {
                 let ct = custo + impostos + outros;
                 if(venda <= 0) {
@@ -567,10 +767,7 @@
                 }
                 setVal('margem', margem);
             }
-            
-            // 3. Descobrir alguma parte dos CUSTOS
             else {
-                // CT = V * (1 - M)
                 let ct_necessario = venda * (1 - (margem / 100));
                 
                 if (custo === null) {
@@ -587,50 +784,38 @@
                 }
             }
 
-            // Após descobrir tudo, calcula e atualiza o painel final
-            atualizarPainel(venda, custo, impostos, outros, margem);
+            atualizarPainelMargem(venda, custo, impostos, outros, margem);
         }
 
-        function atualizarPainel(venda, custo, impostos, outros, margemAlvo) {
+        function atualizarPainelMargem(venda, custo, impostos, outros, margemAlvo) {
             let ct = custo + impostos + outros;
             let lucroBruto = venda - ct;
-            
             let margemReal = 0;
-            if(venda > 0) {
-                margemReal = (lucroBruto / venda) * 100;
-            }
+            if(venda > 0) margemReal = (lucroBruto / venda) * 100;
 
-            // Atualização da UI
             document.getElementById('lucro_bruto').textContent = formatCurrency(lucroBruto);
             document.getElementById('margem_obtida').textContent = formatPct(margemReal);
             document.getElementById('custo_total').textContent = formatCurrency(ct);
 
-            // Cores e Status
             let statusText = document.getElementById('status_text');
             let progressBar = document.getElementById('progress_bar');
             let progressPct = document.getElementById('progress_pct');
 
-            // Reset classes
             document.getElementById('lucro_bruto').className = "result-value";
             document.getElementById('margem_obtida').className = "stat-value";
             statusText.className = "";
             progressBar.className = "progress-bar-fill";
-
-            // Visual da barra (limitado visualmente entre 0 e 100)
-            let limitMargem = Math.max(0, Math.min(100, margemReal));
             
-            // Define patamares padrão já que a meta não é mais fixa
-            let patamarExcelente = 20; // 20%
-            let patamarAtencao = 10;   // 10%
+            let patamarExcelente = 20; 
+            let patamarAtencao = 10;   
 
-            // Lógica de Cores baseada na margem calculada
             if (margemReal >= patamarExcelente) {
                 document.getElementById('lucro_bruto').classList.add('text-success');
                 document.getElementById('margem_obtida').classList.add('text-success');
                 statusText.textContent = "ALTA RENTABILIDADE";
                 statusText.classList.add('text-success');
                 progressBar.classList.add('bg-success');
-                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%"; // Escala pra barra
+                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%"; 
             } else if (margemReal >= patamarAtencao && margemReal < patamarExcelente) {
                 document.getElementById('lucro_bruto').classList.add('text-warning');
                 document.getElementById('margem_obtida').classList.add('text-warning');
@@ -646,37 +831,102 @@
                 progressBar.classList.add('bg-danger');
                 progressBar.style.width = Math.max(5, (margemReal / 30) * 100) + "%";
             }
-            
             progressPct.textContent = formatPct(margemReal);
         }
 
-        // Função de Limpeza
-        function limpar() {
-            let inputs = document.querySelectorAll('.calc-input');
-            inputs.forEach(input => {
+        function limparMargem() {
+            document.querySelectorAll('.calc-input').forEach(input => {
                 input.value = "";
                 input.classList.remove('calculated');
             });
-            
-            document.getElementById('error-msg').style.display = 'none';
-
+            document.getElementById('error-msg-margem').style.display = 'none';
             document.getElementById('lucro_bruto').textContent = "R$ 0,00";
             document.getElementById('lucro_bruto').className = "result-value";
-            
             document.getElementById('margem_obtida').textContent = "0,00%";
             document.getElementById('margem_obtida').className = "stat-value";
-            
             document.getElementById('custo_total').textContent = "R$ 0,00";
             document.getElementById('custo_total').className = "stat-value";
-
             document.getElementById('status_text').textContent = "-";
             document.getElementById('status_text').className = "";
-
             document.getElementById('progress_pct').textContent = "0%";
-            
             let progressBar = document.getElementById('progress_bar');
             progressBar.style.width = "0%";
             progressBar.className = "progress-bar-fill";
+        }
+
+
+        /* ---------------------------------------------------
+           LÓGICA - CALCULADORA DE EMPLACAMENTO
+           --------------------------------------------------- */
+        function toggleDetalhes() {
+            let container = document.getElementById('detalhamento-container');
+            let btn = document.getElementById('toggle-btn');
+            
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                btn.innerHTML = `Ocultar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+            } else {
+                container.style.display = 'none';
+                btn.innerHTML = `Mostrar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+            }
+        }
+
+        document.getElementById('valor_nf').addEventListener('input', function() {
+            document.getElementById('error-msg-emp').style.display = 'none';
+        });
+        document.getElementById('mes_faturamento').addEventListener('change', function() {
+            document.getElementById('error-msg-emp').style.display = 'none';
+        });
+
+        function calcularEmplacamento() {
+            let valorNfStr = document.getElementById('valor_nf').value;
+            let mesStr = document.getElementById('mes_faturamento').value;
+            let errorMsg = document.getElementById('error-msg-emp');
+
+            if (valorNfStr === "" || mesStr === "") {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            let valorNf = parseFloat(valorNfStr);
+            let mes = parseInt(mesStr);
+
+            let placas = 200.00;
+            let seguro = 0.00;
+            let crlv = 30.00;
+            let taxaEmplacamento = 328.51;
+            let despachante = 150.00;
+            let receita = 250.00;
+
+            let taxaIpvaAno = 0.02; // 2%
+            let ipvaTotalAno = valorNf * taxaIpvaAno;
+            
+            let mesesRestantes = 12 - mes + 1;
+            let ipvaProporcional = (ipvaTotalAno / 12) * mesesRestantes;
+
+            let custosFixos = placas + seguro + crlv + taxaEmplacamento + despachante + receita;
+            let totalGeral = custosFixos + ipvaProporcional;
+
+            document.getElementById('total_emplacamento').textContent = formatCurrency(totalGeral);
+            
+            let nomesMeses = ["", "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            document.getElementById('ipva_label').textContent = `IPVA Proporcional (${mesesRestantes} meses desde ${nomesMeses[mes]})`;
+            document.getElementById('custo_ipva').textContent = formatCurrency(ipvaProporcional);
+        }
+
+        function limparEmplacamento() {
+            document.getElementById('valor_nf').value = "";
+            document.getElementById('mes_faturamento').value = "";
+            document.getElementById('error-msg-emp').style.display = 'none';
+
+            document.getElementById('total_emplacamento').textContent = "R$ 0,00";
+            document.getElementById('ipva_label').textContent = "IPVA Proporcional";
+            document.getElementById('custo_ipva').textContent = "R$ 0,00";
+            
+            let container = document.getElementById('detalhamento-container');
+            let btn = document.getElementById('toggle-btn');
+            container.style.display = 'none';
+            btn.innerHTML = `Mostrar Detalhamento dos Custos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
         }
     </script>
 </body>
