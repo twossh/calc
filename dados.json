@@ -2,6 +2,13 @@
   {
     "Modelo da moto": "BIZ 125 ES",
     "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2027,
+    "Custo Presumido": 11395.31,
+    "Valor de venda sugerido": 16510
+  },
+  {
+    "Modelo da moto": "BIZ 125 ES",
+    "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
     "Custo Presumido": 12286.44,
     "Valor de venda sugerido": 16510
@@ -14,11 +21,11 @@
     "Valor de venda sugerido": 16510
   },
   {
-    "Modelo da moto": "BIZ 125 ES",
+    "Modelo da moto": "BIZ 125 EX",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
-    "Custo Presumido": 11395.31,
-    "Valor de venda sugerido": 16510
+    "Custo Presumido": 14205.3,
+    "Valor de venda sugerido": 20590
   },
   {
     "Modelo da moto": "BIZ 125 EX",
@@ -38,13 +45,6 @@
     "Modelo da moto": "BIZ 125 EX",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
-    "Custo Presumido": 15497.69,
-    "Valor de venda sugerido": 20590
-  },
-  {
-    "Modelo da moto": "BIZ 125 EX",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2027,
     "Custo Presumido": 15452.69,
     "Valor de venda sugerido": 20590
   },
@@ -52,7 +52,7 @@
     "Modelo da moto": "BIZ 125 EX",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
-    "Custo Presumido": 14205.3,
+    "Custo Presumido": 15497.69,
     "Valor de venda sugerido": 20590
   },
   {
@@ -72,30 +72,16 @@
   {
     "Modelo da moto": "CB 500 HORNET",
     "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 41897.16,
-    "Valor de venda sugerido": 51090
-  },
-  {
-    "Modelo da moto": "CB 500 HORNET",
-    "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
     "Custo Presumido": 40331.69,
     "Valor de venda sugerido": 51090
   },
   {
-    "Modelo da moto": "CB300F TWISTER ABS",
+    "Modelo da moto": "CB 500 HORNET",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 23524.81,
-    "Valor de venda sugerido": 30290
-  },
-  {
-    "Modelo da moto": "CB300F TWISTER ABS",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 23889.81,
-    "Valor de venda sugerido": 30290
+    "Custo Presumido": 41897.16,
+    "Valor de venda sugerido": 51090
   },
   {
     "Modelo da moto": "CB300F TWISTER ABS",
@@ -108,8 +94,29 @@
     "Modelo da moto": "CB300F TWISTER ABS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
+    "Custo Presumido": 23524.81,
+    "Valor de venda sugerido": 30290
+  },
+  {
+    "Modelo da moto": "CB300F TWISTER ABS",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
     "Custo Presumido": 23722.57,
     "Valor de venda sugerido": 30290
+  },
+  {
+    "Modelo da moto": "CB300F TWISTER ABS",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 23889.81,
+    "Valor de venda sugerido": 30290
+  },
+  {
+    "Modelo da moto": "CB300F TWISTER CBS",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 21122.79,
+    "Valor de venda sugerido": 29590
   },
   {
     "Modelo da moto": "CB300F TWISTER CBS",
@@ -129,13 +136,6 @@
     "Modelo da moto": "CB300F TWISTER CBS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 22692.01,
-    "Valor de venda sugerido": 29590
-  },
-  {
-    "Modelo da moto": "CB300F TWISTER CBS",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
     "Custo Presumido": 22683.31,
     "Valor de venda sugerido": 29590
   },
@@ -143,14 +143,14 @@
     "Modelo da moto": "CB300F TWISTER CBS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 22870.33,
+    "Custo Presumido": 22692.01,
     "Valor de venda sugerido": 29590
   },
   {
     "Modelo da moto": "CB300F TWISTER CBS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 21122.79,
+    "Custo Presumido": 22870.33,
     "Valor de venda sugerido": 29590
   },
   {
@@ -164,13 +164,6 @@
     "Modelo da moto": "CG 160 TITAN 50A",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18651.46,
-    "Valor de venda sugerido": 25290
-  },
-  {
-    "Modelo da moto": "CG 160 TITAN 50A",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
     "Custo Presumido": 18606.46,
     "Valor de venda sugerido": 25290
   },
@@ -178,7 +171,7 @@
     "Modelo da moto": "CG 160 TITAN 50A",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18905.52,
+    "Custo Presumido": 18651.46,
     "Valor de venda sugerido": 25290
   },
   {
@@ -186,6 +179,13 @@
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
     "Custo Presumido": 18860.52,
+    "Valor de venda sugerido": 25290
+  },
+  {
+    "Modelo da moto": "CG 160 TITAN 50A",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 18905.52,
     "Valor de venda sugerido": 25290
   },
   {
@@ -213,7 +213,7 @@
     "Modelo da moto": "CG160 FAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 16699.38,
+    "Custo Presumido": 15701.13,
     "Valor de venda sugerido": 22190
   },
   {
@@ -221,6 +221,13 @@
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
     "Custo Presumido": 16654.38,
+    "Valor de venda sugerido": 22190
+  },
+  {
+    "Modelo da moto": "CG160 FAN",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 16699.38,
     "Valor de venda sugerido": 22190
   },
   {
@@ -241,14 +248,14 @@
     "Modelo da moto": "CG160 FAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 16924.22,
+    "Custo Presumido": 16879.22,
     "Valor de venda sugerido": 22190
   },
   {
     "Modelo da moto": "CG160 FAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 16879.22,
+    "Custo Presumido": 16924.22,
     "Valor de venda sugerido": 22190
   },
   {
@@ -259,45 +266,17 @@
     "Valor de venda sugerido": 22190
   },
   {
-    "Modelo da moto": "CG160 FAN",
+    "Modelo da moto": "CG160 START",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 15701.13,
-    "Valor de venda sugerido": 22190
+    "Custo Presumido": 14353.45,
+    "Valor de venda sugerido": 20390
   },
   {
     "Modelo da moto": "CG160 START",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
     "Custo Presumido": 15306.13,
-    "Valor de venda sugerido": 20390
-  },
-  {
-    "Modelo da moto": "CG160 START",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 16766.13,
-    "Valor de venda sugerido": 20390
-  },
-  {
-    "Modelo da moto": "CG160 START",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 16606.13,
-    "Valor de venda sugerido": 20390
-  },
-  {
-    "Modelo da moto": "CG160 START",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 15513.68,
-    "Valor de venda sugerido": 20390
-  },
-  {
-    "Modelo da moto": "CG160 START",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 16671.68,
     "Valor de venda sugerido": 20390
   },
   {
@@ -311,6 +290,13 @@
     "Modelo da moto": "CG160 START",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
+    "Custo Presumido": 15513.68,
+    "Valor de venda sugerido": 20390
+  },
+  {
+    "Modelo da moto": "CG160 START",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
     "Custo Presumido": 15558.68,
     "Valor de venda sugerido": 20390
   },
@@ -318,7 +304,21 @@
     "Modelo da moto": "CG160 START",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 14353.45,
+    "Custo Presumido": 16606.13,
+    "Valor de venda sugerido": 20390
+  },
+  {
+    "Modelo da moto": "CG160 START",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 16671.68,
+    "Valor de venda sugerido": 20390
+  },
+  {
+    "Modelo da moto": "CG160 START",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 16766.13,
     "Valor de venda sugerido": 20390
   },
   {
@@ -332,7 +332,14 @@
     "Modelo da moto": "CG160 TITAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18075.32,
+    "Custo Presumido": 17032.29,
+    "Valor de venda sugerido": 24490
+  },
+  {
+    "Modelo da moto": "CG160 TITAN",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 17594.08,
     "Valor de venda sugerido": 24490
   },
   {
@@ -340,6 +347,13 @@
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
     "Custo Presumido": 18030.32,
+    "Valor de venda sugerido": 24490
+  },
+  {
+    "Modelo da moto": "CG160 TITAN",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 18075.32,
     "Valor de venda sugerido": 24490
   },
   {
@@ -360,14 +374,14 @@
     "Modelo da moto": "CG160 TITAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18317.45,
+    "Custo Presumido": 18272.45,
     "Valor de venda sugerido": 24490
   },
   {
     "Modelo da moto": "CG160 TITAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18272.45,
+    "Custo Presumido": 18317.45,
     "Valor de venda sugerido": 24490
   },
   {
@@ -381,13 +395,6 @@
     "Modelo da moto": "CG160 TITAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18905.52,
-    "Valor de venda sugerido": 24490
-  },
-  {
-    "Modelo da moto": "CG160 TITAN",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
     "Custo Presumido": 18860.52,
     "Valor de venda sugerido": 24490
   },
@@ -395,14 +402,7 @@
     "Modelo da moto": "CG160 TITAN",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 17032.29,
-    "Valor de venda sugerido": 24490
-  },
-  {
-    "Modelo da moto": "CG160 TITAN",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 17594.08,
+    "Custo Presumido": 18905.52,
     "Valor de venda sugerido": 24490
   },
   {
@@ -444,6 +444,13 @@
     "Modelo da moto": "ELITE 125",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
+    "Custo Presumido": 12345.97,
+    "Valor de venda sugerido": 16900
+  },
+  {
+    "Modelo da moto": "ELITE 125",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2027,
     "Custo Presumido": 13317.12,
     "Valor de venda sugerido": 16900
   },
@@ -469,13 +476,6 @@
     "Valor de venda sugerido": 16900
   },
   {
-    "Modelo da moto": "ELITE 125",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2027,
-    "Custo Presumido": 12345.97,
-    "Valor de venda sugerido": 16900
-  },
-  {
     "Modelo da moto": "GL 1800 TOUR",
     "Ano de Fabricação": 2023,
     "Modelo de fabricação": 2024,
@@ -492,22 +492,22 @@
   {
     "Modelo da moto": "NX 500",
     "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 42442.45,
+    "Modelo de fabricação": 2027,
+    "Custo Presumido": 40357.46,
     "Valor de venda sugerido": 53490
   },
   {
     "Modelo da moto": "NX 500",
     "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2027,
-    "Custo Presumido": 40357.46,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 42442.45,
     "Valor de venda sugerido": 53490
   },
   {
     "Modelo da moto": "NXR160 BROS ABS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 20548.91,
+    "Custo Presumido": 19476.58,
     "Valor de venda sugerido": 28190
   },
   {
@@ -521,7 +521,7 @@
     "Modelo da moto": "NXR160 BROS ABS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 21948.91,
+    "Custo Presumido": 20548.91,
     "Valor de venda sugerido": 28190
   },
   {
@@ -542,21 +542,21 @@
     "Modelo da moto": "NXR160 BROS ABS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 19476.58,
+    "Custo Presumido": 21948.91,
     "Valor de venda sugerido": 28190
   },
   {
     "Modelo da moto": "NXR160 BROS CBS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 20086.85,
+    "Custo Presumido": 18651.44,
     "Valor de venda sugerido": 26890
   },
   {
     "Modelo da moto": "NXR160 BROS CBS",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 18651.44,
+    "Custo Presumido": 20086.85,
     "Valor de venda sugerido": 26890
   },
   {
@@ -584,7 +584,7 @@
     "Modelo da moto": "POP 110I ES",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
-    "Custo Presumido": 10002.16,
+    "Custo Presumido": 9152.38,
     "Valor de venda sugerido": 12990
   },
   {
@@ -598,21 +598,21 @@
     "Modelo da moto": "POP 110I ES",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
-    "Custo Presumido": 9152.38,
+    "Custo Presumido": 10002.16,
     "Valor de venda sugerido": 12990
-  },
-  {
-    "Modelo da moto": "TRX420 FM",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 51849.58,
-    "Valor de venda sugerido": 62150
   },
   {
     "Modelo da moto": "TRX420 FM",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2027,
     "Custo Presumido": 45751.01,
+    "Valor de venda sugerido": 62150
+  },
+  {
+    "Modelo da moto": "TRX420 FM",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 51849.58,
     "Valor de venda sugerido": 62150
   },
   {
@@ -626,7 +626,7 @@
     "Modelo da moto": "XR300L TORNADO",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 27813.87,
+    "Custo Presumido": 25906.6,
     "Valor de venda sugerido": 38490
   },
   {
@@ -640,22 +640,8 @@
     "Modelo da moto": "XR300L TORNADO",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 25906.6,
+    "Custo Presumido": 27813.87,
     "Valor de venda sugerido": 38490
-  },
-  {
-    "Modelo da moto": "XRE 190",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 21524.9,
-    "Valor de venda sugerido": 27590
-  },
-  {
-    "Modelo da moto": "XRE 190",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 21942.82,
-    "Valor de venda sugerido": 27590
   },
   {
     "Modelo da moto": "XRE 190",
@@ -668,7 +654,21 @@
     "Modelo da moto": "XRE 190",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
+    "Custo Presumido": 21524.9,
+    "Valor de venda sugerido": 27590
+  },
+  {
+    "Modelo da moto": "XRE 190",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
     "Custo Presumido": 21897.82,
+    "Valor de venda sugerido": 27590
+  },
+  {
+    "Modelo da moto": "XRE 190",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 21942.82,
     "Valor de venda sugerido": 27590
   },
   {
@@ -696,14 +696,7 @@
     "Modelo da moto": "XRE 300 SAHARA RALLY",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 28541.88,
-    "Valor de venda sugerido": 39490
-  },
-  {
-    "Modelo da moto": "XRE 300 SAHARA RALLY",
-    "Ano de Fabricação": 2026,
-    "Modelo de fabricação": 2026,
-    "Custo Presumido": 28586.88,
+    "Custo Presumido": 26603.68,
     "Valor de venda sugerido": 39490
   },
   {
@@ -717,7 +710,14 @@
     "Modelo da moto": "XRE 300 SAHARA RALLY",
     "Ano de Fabricação": 2026,
     "Modelo de fabricação": 2026,
-    "Custo Presumido": 26603.68,
+    "Custo Presumido": 28541.88,
+    "Valor de venda sugerido": 39490
+  },
+  {
+    "Modelo da moto": "XRE 300 SAHARA RALLY",
+    "Ano de Fabricação": 2026,
+    "Modelo de fabricação": 2026,
+    "Custo Presumido": 28586.88,
     "Valor de venda sugerido": 39490
   },
   {
