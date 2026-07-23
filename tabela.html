@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bloqueio de Cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>NICOLA - Tabela Comercial</title>
+    
+    <style>
+        :root {
+            /* Modo Escuro Fixo */
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --bg-panel: #2a2a2a;
+            --text-main: #f1f1f1;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+            --input-bg: #222222;
+            --input-border: #444444;
+            --input-highlight: #3a3a3a;
+            
+            /* Cores da Marca */
+            --honda-red: #cc0000;
+            --honda-red-hover: #a30000;
+            --honda-black: #0a0a0a;
+            --highlight: #007bff; 
+            
+            /* Status */
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Maior para acomodar a tabela */
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Header e Logo */
+        .header {
+            background-color: var(--honda-black);
+            color: #ffffff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--honda-red);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #aaaaaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module-title {
+            padding: 20px 30px;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 20px;
+            color: var(--honda-red);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            background-color: var(--bg-panel);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .input-wrapper svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            font-size: 15px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--honda-red);
+            box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.3);
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--honda-red);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--honda-red-hover);
+        }
+
+        /* Tabela */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-panel);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1a1a1a;
+            color: var(--honda-red);
+            padding: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--honda-red);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        th:hover {
+            background-color: #222;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        tr:hover td {
+            background-color: rgba(204, 0, 0, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status & Loading */
+        .status {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 10px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--warning);
+            font-weight: bold;
+        }
+        
+        /* Ocultar scrollbar scroll */
+        ::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-panel); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Topo com Logo -->
+        <div class="header">
+            <div class="logo-area">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <div>
+                    <h1 class="logo-text">NICOLA</h1>
+                    <div class="subtitle">Gestão Comercial</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            Tabela Comercial
+        </div>
+
+        <div class="content">
+            
+            <div class="toolbar">
+                <div class="input-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input id="pesquisa" placeholder="Pesquisar modelo, ano, valor..." onkeyup="filtrar()">
+                </div>
+
+                <button class="btn-primary" onclick="carregar()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    Atualizar Base
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="tabela">
+                    <thead>
+                        <tr id="cabecalho">
+                            <!-- Inserido dinamicamente -->
+                        </tr>
+                    </thead>
+                    <tbody id="corpo">
+                        <!-- Inserido dinamicamente -->
+                    </tbody>
+                </table>
+                <div id="loading-box" class="loading">
+                    Sincronizando com o servidor...
+                </div>
+            </div>
+
+            <div class="status" id="status">
+                Aguardando carregamento...
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const URL_JSON = "https://twossh.github.io/calc/valores.json";
+        let dadosOriginais = [];
+        let dadosAtuais = [];
+        let ordem = true; // true = crescente, false = decrescente
+        let colunaOrdenada = "";
+
+        // Formatação inteligente
+        function formatar(valor, key) {
+            if (valor === null || valor === undefined) return "-";
+            
+            // Verifica se não é para formatar (Ex: Ano, ID)
+            let k = key.toLowerCase();
+            if (k.includes('ano') || k.includes('id')) {
+                return valor;
+            }
+
+            // Se for número
+            if (typeof valor === 'number') {
+                return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+            
+            // Se for string que parece número
+            if (typeof valor === 'string') {
+                if (/[a-zA-Z]/.test(valor) && !valor.includes('R$')) return valor;
+                
+                let numClean = valor.replace(/[R$\s]/g, '');
+                if(numClean.includes(',') && numClean.includes('.')) {
+                    numClean = numClean.replace(/\./g, '').replace(',', '.');
+                } else if (numClean.includes(',')) {
+                    numClean = numClean.replace(',', '.');
+                }
+                
+                let num = parseFloat(numClean);
+                if (!isNaN(num)) {
+                    return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                }
+            }
+
+            return valor;
+        }
+
+        async function carregar() {
+            document.getElementById("loading-box").style.display = "block";
+            document.getElementById("corpo").innerHTML = "";
+            document.getElementById("cabecalho").innerHTML = "";
+            document.getElementById("status").innerHTML = "Buscando dados mais recentes...";
+
+            try {
+                // Fetch com cache busting garantido
+                const resposta = await fetch(URL_JSON, { cache: "no-store" });
+                
+                if (!resposta.ok) throw new Error("Erro de HTTP " + resposta.status);
+
+                const json = await resposta.json();
+                
+                // Adaptação: Se for array direto, pega. Se for objeto, tenta achar array
+                if (Array.isArray(json)) {
+                    dadosOriginais = json;
+                } else if (json.Lista_Preco_Sugerido_Julho_26) {
+                    dadosOriginais = json.Lista_Preco_Sugerido_Julho_26;
+                } else {
+                    // Pega o primeiro array que achar nas chaves
+                    let chaves = Object.keys(json);
+                    for(let k of chaves){
+                        if(Array.isArray(json[k])){
+                            dadosOriginais = json[k];
+                            break;
+                        }
+                    }
+                }
+
+                dadosAtuais = [...dadosOriginais];
+                
+                document.getElementById("loading-box").style.display = "none";
+                montarTabela(dadosAtuais);
+                document.getElementById("status").innerHTML = `✓ ${dadosAtuais.length} registros sincronizados.`;
+
+            } catch(e) {
+                document.getElementById("loading-box").innerHTML = "Erro ao carregar banco de dados. Verifique sua conexão.";
+                document.getElementById("loading-box").style.color = "var(--danger)";
+                document.getElementById("status").innerHTML = "Falha na sincronização.";
+                console.error(e);
+            }
+        }
+
+        function montarTabela(lista) {
+            if (lista.length === 0) {
+                document.getElementById("corpo").innerHTML = "<tr><td colspan='10' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
+                return;
+            }
+
+            // Descobrir todas as colunas possíveis (pegando do primeiro objeto útil)
+            // Excluindo colunas que sejam imagens
+            let imgKeys = ['imagem', 'image', 'foto', 'url', 'url_imagem', 'link_imagem'];
+            
+            const colunas = Object.keys(lista[0]).filter(c => {
+                 return !imgKeys.some(imgK => c.toLowerCase().includes(imgK));
+            });
+
+            // Montar Cabeçalho
+            let head = "";
+            colunas.forEach(c => {
+                let seta = "";
+                if (colunaOrdenada === c) {
+                    seta = ordem ? " ▴" : " ▾";
+                }
+                head += `<th onclick="ordenar('${c}')">${c}${seta}</th>`;
+            });
+            document.getElementById("cabecalho").innerHTML = head;
+
+            // Montar Corpo
+            let linhas = "";
+            lista.forEach(item => {
+                linhas += "<tr>";
+                colunas.forEach(c => {
+                    let valorBruto = item[c];
+                    let valorFormatado = formatar(valorBruto, c);
+                    
+                    // Highlight condicional
+                    let style = "";
+                    if (c.toLowerCase().includes('venda') || c.toLowerCase().includes('preço') || c.toLowerCase().includes('sugerido')) {
+                        style = "color: var(--success); font-weight: bold;";
+                    }
+
+                    linhas += `<td style="${style}">${valorFormatado}</td>`;
+                });
+                linhas += "</tr>";
+            });
+            document.getElementById("corpo").innerHTML = linhas;
+        }
+
+        function ordenar(campo) {
+            // Se clicar no mesmo campo, inverte a ordem
+            if (colunaOrdenada === campo) {
+                ordem = !ordem;
+            } else {
+                colunaOrdenada = campo;
+                ordem = true; // Padrão crescente ao trocar de campo
+            }
+
+            dadosAtuais.sort((a, b) => {
+                let valA = a[campo];
+                let valB = b[campo];
+
+                // Limpeza pra numéricos se for string com R$
+                if(typeof valA === 'string' && valA.includes('R$')) valA = parseFloat(valA.replace(/[R$\s]/g, '').replace(/\./g, '').replace(',', '.'));
+                if(typeof valB === 'string' && valB.includes('R$')) valB = parseFloat(valB.replace(/[R$\s]/g, '').replace(/\./g, '').replace(',', '.'));
+
+                // Tratar nulos pra jogarem pro fim
+                if (valA === null || valA === undefined || valA === "") valA = ordem ? Infinity : -Infinity;
+                if (valB === null || valB === undefined || valB === "") valB = ordem ? Infinity : -Infinity;
+
+                if (valA > valB) return ordem ? 1 : -1;
+                if (valA < valB) return ordem ? -1 : 1;
+                return 0;
+            });
+
+            montarTabela(dadosAtuais);
+        }
+
+        function filtrar() {
+            let texto = document.getElementById("pesquisa").value.toLowerCase();
+            
+            if (texto === "") {
+                dadosAtuais = [...dadosOriginais];
+            } else {
+                dadosAtuais = dadosOriginais.filter(obj => 
+                    JSON.stringify(Object.values(obj))
+                    .toLowerCase()
+                    .includes(texto)
+                );
+            }
+            
+            colunaOrdenada = ""; // Reseta seta de ordenação visual
+            montarTabela(dadosAtuais);
+            
+            document.getElementById("status").innerHTML = `${dadosAtuais.length} registros filtrados.`;
+        }
+
+        // Inicia automaticamente
+        window.onload = carregar;
+
+    </script>
+</body>
+</html>
