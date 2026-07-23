@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Concessionária - Calculadora de Margem Dinâmica</title>
+    <style>
+        :root {
+            /* Modo Escuro Fixo */
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --bg-panel: #2a2a2a;
+            --text-main: #f1f1f1;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+            --input-bg: #222222;
+            --input-border: #444444;
+            --input-highlight: #3a3a3a;
+            
+            /* Cores da Marca */
+            --honda-red: #cc0000;
+            --honda-red-hover: #a30000;
+            --honda-black: #0a0a0a;
+            --highlight: #007bff; /* Azul para indicar campo calculado */
+            
+            /* Status */
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Header e Logo */
+        .header {
+            background-color: var(--honda-black);
+            color: #ffffff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--honda-red);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #aaaaaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grid Principal */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Formulário de Entradas */
+        .form-area {
+            padding: 30px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .form-area {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--honda-red);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            padding: 10px;
+            background-color: var(--bg-panel);
+            border-left: 3px solid var(--highlight);
+            border-radius: 4px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 12px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 12px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .has-prefix { padding-left: 35px !important; }
+        .has-suffix { padding-right: 35px !important; }
+
+        input[type="number"]:focus {
+            border-color: var(--honda-red);
+            box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.3);
+        }
+        
+        /* Estilo para o campo que foi calculado automaticamente */
+        input.calculated {
+            background-color: var(--input-highlight);
+            border-color: var(--highlight);
+            color: var(--highlight);
+            font-weight: bold;
+            box-shadow: 0 0 0 1px var(--highlight);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--honda-red);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--honda-red-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+        
+        /* Modal de Erro customizado */
+        .error-message {
+            display: none;
+            color: var(--danger);
+            font-size: 13px;
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Área de Resultados */
+        .result-area {
+            padding: 30px;
+            background-color: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .result-header {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Barra de Progresso */
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.5s ease-out, background-color 0.3s;
+        }
+
+        /* Cores Dinâmicas */
+        .text-success { color: var(--success); }
+        .text-warning { color: var(--warning); }
+        .text-danger { color: var(--danger); }
+        .bg-success { background-color: var(--success); }
+        .bg-warning { background-color: var(--warning); }
+        .bg-danger { background-color: var(--danger); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Topo com Logo -->
+        <div class="header">
+            <div class="logo-area">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 22h20L12 2z"></path>
+                    <path d="M12 22V12"></path>
+                </svg>
+                <div>
+                    <h1 class="logo-text">NICOLA</h1>
+                    <div class="subtitle">Cálculo Dinâmico</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- Lado Esquerdo: Formulário -->
+            <div class="form-area">
+                <div class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Simulador Reverso
+                </div>
+                
+                <div class="instructions">
+                    <strong>Regra:</strong> Preencha apenas 4 dos 5 campos principais. Deixe o campo que deseja descobrir vazio e clique em Calcular.
+                </div>
+
+                <div class="input-group">
+                    <label>Valor da Venda</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="venda" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Custo Base</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="custo" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Impostos (PIS/COFINS)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="impostos" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Outros Custos</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="outros" class="has-prefix calc-input" placeholder="Opcional" step="0.01">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Margem (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="margem" class="has-suffix calc-input" placeholder="Opcional" step="0.01">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="error-msg" class="error-message">Deixe exatamente UM campo (ou grupo) vazio para ser calculado.</div>
+
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="calcularDinamico()">Calcular</button>
+                    <button class="btn-secondary" onclick="limpar()">Limpar</button>
+                </div>
+            </div>
+
+            <!-- Lado Direito: Resultados -->
+            <div class="result-area">
+                <div class="result-card">
+                    <div class="result-header">Lucro Bruto</div>
+                    <div class="result-value" id="lucro_bruto">R$ 0,00</div>
+                </div>
+
+                <div class="result-grid">
+                    <div class="stat-box">
+                        <div class="stat-title">Margem Atual</div>
+                        <div class="stat-value" id="margem_obtida">0,00%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">Custo Total</div>
+                        <div class="stat-value" id="custo_total">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span>Status: <strong id="status_text">-</strong></span>
+                        <span id="progress_pct">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress_bar"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Remove destaque quando o usuário digita
+        document.querySelectorAll('.calc-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('calculated');
+                document.getElementById('error-msg').style.display = 'none';
+            });
+        });
+
+        // Funções Auxiliares
+        function getVal(id) {
+            let val = document.getElementById(id).value;
+            return val === "" ? null : parseFloat(val);
+        }
+        
+        function setVal(id, value) {
+            let el = document.getElementById(id);
+            el.value = value.toFixed(2);
+            el.classList.add('calculated');
+        }
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function formatPct(value) {
+            return value.toFixed(2).replace('.', ',') + '%';
+        }
+
+        // Função Principal de Cálculo Dinâmico
+        function calcularDinamico() {
+            // Remove estados de cálculo prévios
+            document.querySelectorAll('.calc-input').forEach(input => input.classList.remove('calculated'));
+            let errorMsg = document.getElementById('error-msg');
+            errorMsg.style.display = 'none';
+
+            let venda = getVal('venda');
+            let custo = getVal('custo');
+            let impostos = getVal('impostos');
+            let outros = getVal('outros');
+            let margem = getVal('margem');
+
+            // Agrupa os custos menores se houver necessidade
+            // Para simplificar a lógica inversa, se custo estiver vazio, assumimos impostos e outros como 0 se também vazios
+            if(custo === null && impostos === null) impostos = 0;
+            if(custo === null && outros === null) outros = 0;
+            
+            // Variável de Custo Total para ajudar nos cálculos
+            // O Custo Total C_T = Custo + Impostos + Outros
+            // Sabemos que: Margem = ((Venda - C_T) / Venda) * 100
+            // Logo: C_T = Venda * (1 - (Margem/100))
+            // E: Venda = C_T / (1 - (Margem/100))
+
+            // Verifica quantos campos essenciais estão vazios
+            // Consideramos "Custos" como um bloco unificado para a regra do "um vazio"
+            let custoTotalValido = (custo !== null && impostos !== null && outros !== null);
+            
+            let vazios = 0;
+            if(venda === null) vazios++;
+            if(!custoTotalValido) vazios++;
+            if(margem === null) vazios++;
+
+            if(vazios !== 1) {
+                // Se custo base estiver vazio mas não os outros, tratamos "custo base" como a incógnita
+                if(custo === null && impostos !== null && outros !== null && venda !== null && margem !== null) {
+                    // Custo é a única incógnita real
+                } else if(impostos === null && custo !== null && outros !== null && venda !== null && margem !== null) {
+                    // Impostos é a única incógnita
+                } else if(outros === null && custo !== null && impostos !== null && venda !== null && margem !== null) {
+                    // Outros é a única incógnita
+                } else {
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+            }
+
+            // Cálculos Reversos
+
+            // 1. Descobrir VENDA
+            if (venda === null) {
+                let ct = custo + impostos + outros;
+                // V = CT / (1 - M)
+                if(margem >= 100) {
+                    errorMsg.textContent = "A margem não pode ser 100% ou maior neste cálculo.";
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                venda = ct / (1 - (margem / 100));
+                setVal('venda', venda);
+            }
+            
+            // 2. Descobrir MARGEM
+            else if (margem === null) {
+                let ct = custo + impostos + outros;
+                if(venda <= 0) {
+                    margem = 0;
+                } else {
+                    margem = ((venda - ct) / venda) * 100;
+                }
+                setVal('margem', margem);
+            }
+            
+            // 3. Descobrir alguma parte dos CUSTOS
+            else {
+                // CT = V * (1 - M)
+                let ct_necessario = venda * (1 - (margem / 100));
+                
+                if (custo === null) {
+                    custo = ct_necessario - (impostos + outros);
+                    setVal('custo', custo);
+                }
+                else if (impostos === null) {
+                    impostos = ct_necessario - (custo + outros);
+                    setVal('impostos', impostos);
+                }
+                else if (outros === null) {
+                    outros = ct_necessario - (custo + impostos);
+                    setVal('outros', outros);
+                }
+            }
+
+            // Após descobrir tudo, calcula e atualiza o painel final
+            atualizarPainel(venda, custo, impostos, outros, margem);
+        }
+
+        function atualizarPainel(venda, custo, impostos, outros, margemAlvo) {
+            let ct = custo + impostos + outros;
+            let lucroBruto = venda - ct;
+            
+            let margemReal = 0;
+            if(venda > 0) {
+                margemReal = (lucroBruto / venda) * 100;
+            }
+
+            // Atualização da UI
+            document.getElementById('lucro_bruto').textContent = formatCurrency(lucroBruto);
+            document.getElementById('margem_obtida').textContent = formatPct(margemReal);
+            document.getElementById('custo_total').textContent = formatCurrency(ct);
+
+            // Cores e Status
+            let statusText = document.getElementById('status_text');
+            let progressBar = document.getElementById('progress_bar');
+            let progressPct = document.getElementById('progress_pct');
+
+            // Reset classes
+            document.getElementById('lucro_bruto').className = "result-value";
+            document.getElementById('margem_obtida').className = "stat-value";
+            statusText.className = "";
+            progressBar.className = "progress-bar-fill";
+
+            // Visual da barra (limitado visualmente entre 0 e 100)
+            let limitMargem = Math.max(0, Math.min(100, margemReal));
+            
+            // Define patamares padrão já que a meta não é mais fixa
+            let patamarExcelente = 20; // 20%
+            let patamarAtencao = 10;   // 10%
+
+            // Lógica de Cores baseada na margem calculada
+            if (margemReal >= patamarExcelente) {
+                document.getElementById('lucro_bruto').classList.add('text-success');
+                document.getElementById('margem_obtida').classList.add('text-success');
+                statusText.textContent = "ALTA RENTABILIDADE";
+                statusText.classList.add('text-success');
+                progressBar.classList.add('bg-success');
+                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%"; // Escala pra barra
+            } else if (margemReal >= patamarAtencao && margemReal < patamarExcelente) {
+                document.getElementById('lucro_bruto').classList.add('text-warning');
+                document.getElementById('margem_obtida').classList.add('text-warning');
+                statusText.textContent = "MARGEM MÉDIA";
+                statusText.classList.add('text-warning');
+                progressBar.classList.add('bg-warning');
+                progressBar.style.width = Math.min(100, (margemReal / 30) * 100) + "%";
+            } else {
+                document.getElementById('lucro_bruto').classList.add('text-danger');
+                document.getElementById('margem_obtida').classList.add('text-danger');
+                statusText.textContent = margemReal <= 0 ? "PREJUÍZO" : "MARGEM BAIXA";
+                statusText.classList.add('text-danger');
+                progressBar.classList.add('bg-danger');
+                progressBar.style.width = Math.max(5, (margemReal / 30) * 100) + "%";
+            }
+            
+            progressPct.textContent = formatPct(margemReal);
+        }
+
+        // Função de Limpeza
+        function limpar() {
+            let inputs = document.querySelectorAll('.calc-input');
+            inputs.forEach(input => {
+                input.value = "";
+                input.classList.remove('calculated');
+            });
+            
+            document.getElementById('error-msg').style.display = 'none';
+
+            document.getElementById('lucro_bruto').textContent = "R$ 0,00";
+            document.getElementById('lucro_bruto').className = "result-value";
+            
+            document.getElementById('margem_obtida').textContent = "0,00%";
+            document.getElementById('margem_obtida').className = "stat-value";
+            
+            document.getElementById('custo_total').textContent = "R$ 0,00";
+            document.getElementById('custo_total').className = "stat-value";
+
+            document.getElementById('status_text').textContent = "-";
+            document.getElementById('status_text').className = "";
+
+            document.getElementById('progress_pct').textContent = "0%";
+            
+            let progressBar = document.getElementById('progress_bar');
+            progressBar.style.width = "0%";
+            progressBar.className = "progress-bar-fill";
+        }
+    </script>
+</body>
+</html>
